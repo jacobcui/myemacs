@@ -1,24 +1,27 @@
-;; el-get package
 
-(add-to-list 'load-path "~/.emacs.d/elpa/ecb-2alpha24")
-(add-to-list 'load-path "~/.emacs.d/el-get/el-get")
+;; Now use melpa to manage packages
+(require 'package)
+(add-to-list 'package-archives
+             '("melpa" . "http://melpa.org/packages/"))
+(when (< emacs-major-version 24)
+  (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
+(package-initialize)
 
-(unless (require 'el-get nil 'noerror)
-  (require 'package)
-  (add-to-list 'package-archives
-               '("melpa" . "http://melpa.org/packages/"))
-  (package-refresh-contents)
-  (package-initialize)
-  (package-install 'el-get)
-  (require 'el-get))
+(defun check_package (package_name)
+  (unless (require package_name nil 'noerror)
+    (package-install package_name)
+    (require package_name)))
 
-(add-to-list 'el-get-recipe-path "~/.emacs.d/el-get-user/recipes")
-(el-get 'sync)
+(check_package 'jedi)
+(check_package 'ecb)
+(check_package 'buffer-move)
+(check_package 'web-mode)
 
+;; please install jedi server:
 ;; http://tkf.github.io/emacs-jedi
 ;; M-x el-get-install RET jedi RET
 ;; M-x jedi:install-server RET( see also Python server(jediepcserver.py) installation )
-;; standard Jedi.el setting
+;; Standard jedi setup
 (add-hook 'python-mode-hook 'jedi:setup)
 (setq jedi:complete-on-dot t)
 
@@ -27,7 +30,6 @@
 ;disable auto save
 (setq auto-save-default nil)
 
-(require 'buffer-move)
 (require 'semantic/analyze)
 (provide 'semantic-analyze)
 (provide 'semantic-ctxt)
@@ -35,8 +37,6 @@
 (provide 'semanticdb-find)
 (provide 'semanticdb-mode)
 (provide 'semantic-load)
-
-;; (load-file "~/emacs/buffer-move.el")
 
 (require 'cedet)
 (require 'ede)
@@ -56,7 +56,6 @@
 
 ;; git clone --depth 1  https://github.com/alexott/ecb/ ecb
 
-;;(load "/Users/jacob/emacs/nxhtml/autostart.elc")
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 
 (require 'ecb)
