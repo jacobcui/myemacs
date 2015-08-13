@@ -7,6 +7,9 @@
   (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
 (package-initialize)
 
+(unless package-archive-contents
+  (package-refresh-contents))
+
 (defun check_package (package_name)
   (unless (require package_name nil 'noerror)
     (package-install package_name)
