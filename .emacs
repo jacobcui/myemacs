@@ -16,6 +16,7 @@
 (check_package 'ecb)
 (check_package 'buffer-move)
 (check_package 'web-mode)
+(check_package 'js2-mode)
 
 ;; please install jedi server:
 ;; http://tkf.github.io/emacs-jedi
@@ -48,17 +49,8 @@
   uniquify-separator ":")
 (setq stack-trace-on-error t) 
 
-;;(global-ede-mode 1)  
-;;(semantic-load-enable-code-helpers) 
-;;(semantic-load-enable-minimum-features)
-
-;; (global-srecode-minor-mode 1) 
-
-;; git clone --depth 1  https://github.com/alexott/ecb/ ecb
-
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 
-(require 'ecb)
 ;; (ecb-activate)
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
