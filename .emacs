@@ -1,11 +1,16 @@
 ;; el-get package
-(add-to-list 'load-path "/usr/local/google/home/jiac/emacs/el-get")
+
+(add-to-list 'load-path "~/.emacs.d/elpa/ecb-2alpha24")
+(add-to-list 'load-path "~/.emacs.d/el-get/el-get")
+
 (unless (require 'el-get nil 'noerror)
-  (with-current-buffer
-      (url-retrieve-synchronously
-       "https://raw.githubusercontent.com/dimitri/el-get/master/el-get-install.el")
-    (goto-char (point-max))
-    (eval-print-last-sexp)))
+  (require 'package)
+  (add-to-list 'package-archives
+               '("melpa" . "http://melpa.org/packages/"))
+  (package-refresh-contents)
+  (package-initialize)
+  (package-install 'el-get)
+  (require 'el-get))
 
 (add-to-list 'el-get-recipe-path "~/.emacs.d/el-get-user/recipes")
 (el-get 'sync)
@@ -22,6 +27,7 @@
 ;disable auto save
 (setq auto-save-default nil)
 
+(require 'buffer-move)
 (require 'semantic/analyze)
 (provide 'semantic-analyze)
 (provide 'semantic-ctxt)
@@ -30,11 +36,7 @@
 (provide 'semanticdb-mode)
 (provide 'semantic-load)
 
-(load-file "~/emacs/buffer-move.el")
-
-(add-to-list 'load-path "~/emacs/ecb-2.40")
-(add-to-list 'load-path "~/emacs/cedet-1.0pre6")
-(load-file "~/emacs/cedet-1.0pre6/common/cedet.el")
+;; (load-file "~/emacs/buffer-move.el")
 
 (require 'cedet)
 (require 'ede)
