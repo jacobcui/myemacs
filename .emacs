@@ -16,7 +16,8 @@
     (require package_name)))
 
 (check_package 'jedi)
-(jedi:install-server)
+(unless (file-exists-p "~/.emacs.d/.python-environments/default/bin/python")
+    (jedi:install-server))
 (check_package 'ecb)
 (check_package 'buffer-move)
 (check_package 'web-mode)
