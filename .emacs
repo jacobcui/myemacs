@@ -32,7 +32,7 @@
 
 (load-file "~/emacs/buffer-move.el")
 
-;; (add-to-list 'load-path "~/emacs/ecb-2.40")
+(add-to-list 'load-path "~/emacs/ecb-2.40")
 (add-to-list 'load-path "~/emacs/cedet-1.0pre6")
 (load-file "~/emacs/cedet-1.0pre6/common/cedet.el")
 
@@ -57,7 +57,7 @@
 ;;(load "/Users/jacob/emacs/nxhtml/autostart.elc")
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 
-;; (require 'ecb)
+(require 'ecb)
 ;; (ecb-activate)
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
