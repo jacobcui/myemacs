@@ -16,15 +16,12 @@
     (require package_name)))
 
 (check_package 'jedi)
+(jedi:install-server)
 (check_package 'ecb)
 (check_package 'buffer-move)
 (check_package 'web-mode)
 (check_package 'js2-mode)
 
-;; please install jedi server:
-;; http://tkf.github.io/emacs-jedi
-;; M-x el-get-install RET jedi RET
-;; M-x jedi:install-server RET( see also Python server(jediepcserver.py) installation )
 ;; Standard jedi setup
 (add-hook 'python-mode-hook 'jedi:setup)
 (setq jedi:complete-on-dot t)
