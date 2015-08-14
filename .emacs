@@ -24,6 +24,7 @@
 (check_package 'js2-mode)
 
 ;; Standard jedi setup
+(autoload 'jedi:setup "jedi" nil t)
 (add-hook 'python-mode-hook 'jedi:setup)
 (setq jedi:complete-on-dot t)
 
