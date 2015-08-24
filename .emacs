@@ -46,6 +46,26 @@
 (require 'semantic)
 (require 'srecode)
 (require 'uniquify) 
+
+;; Installation of cscope is needed from OS level. E.g apt-get install cscope
+;; For python, pycscope is needed.
+;;   find . -name '*.py' > cscope.files
+;;   pyscope -R
+(require 'xcscope)
+	(define-key global-map [(control f3)]  'cscope-find-this-symbol)
+	(define-key global-map [(control f4)]  'cscope-find-global-definition)
+	(define-key global-map [(control f5)]  'cscope-set-initial-directory)
+	(define-key global-map [(control f6)]  'cscope-unset-initial-directory)
+	(define-key global-map [(control f7)]
+	  'cscope-find-global-definition-no-prompting)
+	(define-key global-map [(control f8)]  'cscope-pop-mark)
+	(define-key global-map [(control f9)]  'cscope-history-backward-line)
+	(define-key global-map [(control f10)] 'cscope-history-forward-line)
+	(define-key global-map [(control f11)] 'cscope-history-backward-file)
+	(define-key global-map [(control f12)] 'cscope-history-forward-file)
+     (define-key global-map [(meta f9)]  'cscope-display-buffer)
+     (define-key global-map [(meta f10)] 'cscope-display-buffer-toggle)
+
 (setq 
   uniquify-buffer-name-style 'post-forward
   uniquify-separator ":")
@@ -83,3 +103,22 @@
  ;; If there is more than one, they won't work right.
  )
 (server-start)
+
+;; General key strokes
+;; C-u C-space or C-u C-@  - Go back to previous line position
+;; C-x C-space or C-x C-@  - Navigate back between buffers
+
+;; about tags
+;; create TAGS file: 
+;; 1) go to your project directory, run
+;;    # find . -type f |etags -
+;; 2) go to emacs, M-x visit-tags-table to load this file
+;; 3) command reference: http://www.gnu.org/software/emacs/manual/html_node/emacs/Find-Tag.html
+;;    M-. tag RET       - Find first definition of tag (find-tag).
+;;    C-u M-.           - Find next alternate definition of last tag specified.
+;;    C-u - M-.         - Go back to previous tag found.
+;;    C-M-. pattern RET - Find a tag whose name matches pattern (find-tag-regexp).
+;;    C-u C-M-.         - Find the next tag whose name matches the last pattern used.
+;;    C-x 4 . tag RET   - Find first definition of tag, but display it in another window (find-tag-other-window).
+;;    C-x 5 . tag RET   - Find first definition of tag, and create a new frame to select the buffer (find-tag-other-frame).
+;;    M-*               - Pop back to where you previously invoked M-. and friends.
