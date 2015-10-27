@@ -51,7 +51,7 @@
 ;; For python, pycscope is needed.
 ;;   find . -name '*.py' > cscope.files
 ;;   pyscope -R
-(require 'xcscope)
+(check_package 'xcscope)
 	(define-key global-map [(control f3)]  'cscope-find-this-symbol)
 	(define-key global-map [(control f4)]  'cscope-find-global-definition)
 	(define-key global-map [(control f5)]  'cscope-set-initial-directory)
@@ -102,8 +102,6 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
-(server-start)
-
 ;; General key strokes
 ;; C-u C-space or C-u C-@  - Go back to previous line position
 ;; C-x C-space or C-x C-@  - Navigate back between buffers
@@ -122,3 +120,24 @@
 ;;    C-x 4 . tag RET   - Find first definition of tag, but display it in another window (find-tag-other-window).
 ;;    C-x 5 . tag RET   - Find first definition of tag, and create a new frame to select the buffer (find-tag-other-frame).
 ;;    M-*               - Pop back to where you previously invoked M-. and friends.
+
+;;(setq server-socket-dir "~/.emacs.d/server")
+(setq server-socket-dir "/tmp/emacs501")
+(server-start)
+
+;; Find non-ASCII characters in source files.
+(defun non-ascii-char ()
+  "Find the first non-ASCII character from point onwards."
+  (interactive)
+  (let (point)
+    (save-excursion
+      (setq point
+            (catch 'non-ascii
+              (while (not (eobp))
+                (or (eq (char-charset (following-char))
+                        'ascii)
+                    (throw 'non-ascii (point)))
+                (forward-char 1)))))
+    (if point
+        (goto-char point)
+        (message "No non-ASCII characters."))))
