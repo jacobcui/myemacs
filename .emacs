@@ -10,6 +10,7 @@
              '("melpa" . "http://melpa.org/packages/"))
 (add-to-list 'custom-theme-load-path "~/.emacs.d/elpa/sublime-themes-20170606.1144")
 
+;; Open Emacs with fullscreen by default.
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
 (when (< emacs-major-version 24)
@@ -31,7 +32,6 @@
 (global-set-key [mouse-9] 'other-window)
 (global-set-key [drag-mouse-9] 'buf-move-left)
 (global-set-key [mouse-8] 'linum-mode)
-
 
 (check_package 'jedi)
 (unless (file-exists-p "~/.emacs.d/.python-environments/default/bin/python")
@@ -61,6 +61,9 @@
 (setq backup-inhibited t)
 																				;disable auto save
 (setq auto-save-default nil)
+;; Set default font size
+;; The value is in 1/10pt, so 100 will give you 10pt, etc.
+(set-face-attribute 'default nil :height 150)
 
 (require 'semantic/analyze)
 (provide 'semantic-analyze)
@@ -135,6 +138,7 @@
 	 (quote
 		("5830cd08ec76cfe1325e7c3dc81c8ee9794d69bd5210cd77c707d3bd598d93a0" "b3775ba758e7d31f3bb849e7c9e48ff60929a792961a2d536edec8f68c671ca5" default)))
  '(package-selected-packages (quote (jedi company-jedi sublime-themes)))
+ '(ps-font-size (quote (8 . 9.5)))
  '(python-indent-offset 2))
  ;; General key strokes
  ;; C-u C-space or C-u C-@  - Go back to previous line position
