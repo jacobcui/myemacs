@@ -4,11 +4,31 @@
 
 (global-set-key (kbd "M-*") 'pop-tag-mark) ; Navigate back to where you use M-.
 
-;; Now use melpa to manage packages
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages '(vscode-dark-plus-theme standard-themes nano-theme)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+(put 'upcase-region 'disabled nil)
+
 (require 'package)
-(add-to-list 'package-archives
-             '("melpa" . "http://melpa.org/packages/"))
-(add-to-list 'custom-theme-load-path "~/.emacs.d/elpa/sublime-themes-20170606.1144")
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+;; Comment/uncomment this line to enable MELPA Stable if desired.  See `package-archive-priorities`
+;; and `package-pinned-packages`. Most users will not need or want to do this.
+;;(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+(package-initialize)
+
+(use-package vscode-dark-plus-theme
+  :ensure t
+  :config
+  (load-theme 'vscode-dark-plus t))
 
 ;; Open Emacs with fullscreen by default.
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
@@ -24,10 +44,6 @@
   (unless (require package_name nil 'noerror)
     (package-install package_name)
     (require package_name)))
-
-(check_package 'sublime-themes)
-
-(add-to-list 'custom-theme-load-path "~/.emacs.d/elpa/sublime-themes-20170606.1144")
 
 (global-set-key [mouse-9] 'other-window)
 (global-set-key [drag-mouse-9] 'buf-move-left)
@@ -133,11 +149,6 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-enabled-themes (quote (tango-dark)))
- '(custom-safe-themes
-	 (quote
-		("5830cd08ec76cfe1325e7c3dc81c8ee9794d69bd5210cd77c707d3bd598d93a0" "b3775ba758e7d31f3bb849e7c9e48ff60929a792961a2d536edec8f68c671ca5" default)))
- '(package-selected-packages (quote (jedi company-jedi sublime-themes)))
  '(ps-font-size (quote (8 . 9.5)))
  '(python-indent-offset 2))
  ;; General key strokes
