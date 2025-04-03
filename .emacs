@@ -196,3 +196,17 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
+;; polymode for org-mode
+(use-package polymode
+  :ensure t
+  :config
+  ;; Define a polymode for Org with Markdown chunks
+  (define-hostmode poly-org-hostmode :mode 'org-mode)
+  (define-innermode poly-markdown-innermode
+    :mode 'markdown-mode
+    :head-matcher "^[[:space:]]*#\\+begin_src markdown"
+    :tail-matcher "^[[:space:]]*#\\+end_src")
+  (define-polymode poly-org-markdown-mode
+    :hostmode 'poly-org-hostmode
+    :innermodes '(poly-markdown-innermode)))
