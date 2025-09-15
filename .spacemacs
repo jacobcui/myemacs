@@ -577,8 +577,71 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
-  )
+  (global-set-key (kbd "M-n") #'scroll-up-line)
+  (global-set-key (kbd "M-p") #'scroll-down-line)
 
+  (setq fill-column 120)
+  (add-hook 'before-save-hook 'delete-trailing-whitespace)
+  (add-hook 'focus-out-hook (lambda ()
+                              (save-some-buffers t)))
+  (global-set-key [C-insert] 'clipboard-kill-ring-save)
+
+  ;; Auto-save all buffers on focus-out
+  (defun save-all-buffers-on-focus-out ()
+    (save-some-buffers t))
+  (add-hook 'focus-out-hook #'save-all-buffers-on-focus-out)
+
+
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;; (defadvice! +lsp-diagnostics--flycheck-buffer ()                                 ;;
+  ;;             :override #'lsp-diagnostics--flycheck-buffer                         ;;
+  ;;             "Trigger flycheck on buffer."                                        ;;
+  ;;             (remove-hook 'lsp-on-idle-hook #'lsp-diagnostics--flycheck-buffer t) ;;
+  ;;             (when (bound-and-true-p flycheck-mode)                               ;;
+  ;;               (flycheck-buffer)))                                                ;;
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  (with-eval-after-load 'embrace
+    (embrace-add-pair ?\[ "[" "]" :space nil)
+    (embrace-add-pair ?\( "(" ")" :space nil)
+    (embrace-add-pair ?\{ "{" "}" :space nil))
+
+  ;; Start term.
+  (defvar my/sbs-root-dir "~/projects/AUSPAC-UW-GENAI/auspac-uw-genai/side-by-side/"
+    "Root directory for my side-by-side project.")
+
+  (defun my/open-term-at-startup ()
+    (remove-hook 'spacemacs-buffer-mode-hook #'my/open-term-at-startup)
+    (let ((default-directory (expand-file-name "functions" my/sbs-root-dir)))
+      (let ((buf (term "/bin/bash")))
+        (with-current-buffer buf
+          (rename-buffer "term-functions"))))
+    (let ((default-directory (expand-file-name "frontend" my/sbs-root-dir)))
+      (let ((buf (term "/bin/bash")))
+        (with-current-buffer buf
+          (rename-buffer "term-frontend"))))
+    (let ((default-directory "~/sandbox/"))
+      (let ((buf (term "/bin/bash")))
+        (with-current-buffer buf
+          (rename-buffer "term-jupyter"))))
+    )
+
+  (add-hook 'spacemacs-buffer-mode-hook #'my/open-term-at-startup)
+
+  ;; Start left side panel.
+  (add-hook 'spacemacs-buffer-mode-hook
+            (lambda ()
+              (require 'treemacs)
+              (let ((project-path my/sbs-root-dir))
+                (unless (member project-path (projectile-relevant-known-projects))
+                  (treemacs-add-project-to-workspace
+                   (list :name "side-by-side" :path project-path)))
+                (treemacs)
+                (treemacs-select-window)
+                ;;(treemacs-find-file project-path)
+                )))
+
+  (find-file (expand-file-name "functions/core.py" my/sbs-root-dir))
+  )
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
